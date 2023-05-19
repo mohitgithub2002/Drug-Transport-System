@@ -1,25 +1,26 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2'
 import '../pages.css';
 import {contract} from '../connectContract';
 
 function SetManufacturer() {
   
-  const [manufacturer, setManufacturer] = useState('');
-
-  const [result, setResult] = useState(true);  //for showing the form submission and print response
-  
+  const [manufacturer, setManufacturer] = useState('');  
 
   async function handleSubmit(event) {
     event.preventDefault();
     const setmanu = await contract.setManufacturer(manufacturer)
     const txreceipt = await setmanu.wait();
-    console.log(txreceipt);
-    setResult(false);
+    Swal.fire({
+      icon: 'success',
+      title: 'Manufacturer Details',
+      text: 'Manufacturer deatils updated successfully'
+  })
   }
 
   return (
     <div className='field'>
-      {result?
+      
         <div>
           <form onSubmit={handleSubmit} className="form">
             
@@ -39,11 +40,7 @@ function SetManufacturer() {
             <button type="submit" className='form-btn'>Update Manufacturer</button>
           </form>
         </div>
-        :
-        <div className='result-section'>
-          <h1> Manufacturer detail updated</h1>
-        </div>
-      }
+        
     </div>
   );
 }

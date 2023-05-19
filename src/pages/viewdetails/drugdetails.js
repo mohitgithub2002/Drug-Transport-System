@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2'
 import '../../pages.css';
 import {contract} from '../../connectContract';
 
@@ -6,22 +7,20 @@ function DrugDetail() {
   
   const [index, setIndex] = useState('');
 
-  const [result, setResult] = useState(true);  //for showing the form submission and print response
-  
-  const [drug, setDrug] = useState('');  //for drug details
-
   async function handleSubmit(event) {
     event.preventDefault();
     const setdrug = await contract.getDrugPack(index)
     //const txreceipt = await setdrug.wait();
-    console.log(setdrug);
-    setDrug(setdrug);
-    setResult(false);
+    Swal.fire({
+      icon: 'info',
+      title: 'Drug Details',
+      text: 'Name: '+setdrug[0]+'Quantity: '+setdrug[1]
+  })
   }
 
   return (
     <div className='field'>
-      {result?
+      
         <div>
           <form onSubmit={handleSubmit} className="form">
             
@@ -41,14 +40,7 @@ function DrugDetail() {
             <button type="submit" className='form-btn'>Show Details</button>
           </form>
         </div>
-        :
-        <div className='result-section'>
-          <h1> Drug Name : {drug[0]}
-            <br />
-               Quantity : {drug[1].toString()}
-          </h1>
-        </div>
-      }
+        
     </div>
   );
 }

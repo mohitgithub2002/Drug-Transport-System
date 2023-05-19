@@ -1,12 +1,13 @@
 import React, { useState , useEffect} from 'react';
 import '../pages.css';
+import Swal from 'sweetalert2'
 import {contract} from '../connectContract';
 
 function VerifyTemp() {
   
   const [temp, setTemp] = useState('');
-  const [msg, setMsg] = useState('');  //for showing the form submission and print response
-  const [result, setResult] = useState(true);  //for showing the form submission and print response
+  const [msg, setMsg] = useState('Tempreature of drugs are in limit');  //for showing the form submission and print response
+  
   useEffect(() => {
     // Subscribe to the event when the component mounts
     if (contract) {
@@ -29,13 +30,16 @@ function VerifyTemp() {
     const settemp = await contract.checkTemperature(temp)
     const txreceipt = await settemp.wait();
     
-    console.log(txreceipt);
-     setResult(false);
+    Swal.fire({
+      icon: 'info',
+      title: 'Tempreature ',
+      text: msg
+  })
   }
 
   return (
     <div className='field'>
-      {result?
+      
         <div>
           <form onSubmit={handleSubmit} className="form">
             
@@ -55,11 +59,7 @@ function VerifyTemp() {
             <button type="submit" className='form-btn'>Check Temperature</button>
           </form>
         </div>
-        :
-        <div className='result-section'>
-          <h1> {msg}</h1>
-        </div>
-      }
+        
     </div>
   );
 }

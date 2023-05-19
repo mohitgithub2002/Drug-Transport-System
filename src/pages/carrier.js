@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2'
 import '../pages.css';
 import {contract} from '../connectContract';
 
@@ -6,20 +7,20 @@ function SetCarrier() {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
 
-  const [result, setResult] = useState(true);  //for showing the form submission and print response
-  
-
   async function handleSubmit(event) {
     event.preventDefault();
     const carrier = await contract.setCarrier( address, city)
     const txreceipt = await carrier.wait();
-    console.log(txreceipt);
-    setResult(false);
+    Swal.fire({
+      icon: 'success',
+      title: 'Carrier Details',
+      text: 'carrier deatils set successfully'
+  })
   }
 
   return (
     <div className='field'>
-      {result?
+      
         <div>
           <form onSubmit={handleSubmit} className="form">
             <div className='input' >
@@ -52,11 +53,7 @@ function SetCarrier() {
             <button type="submit" className='form-btn'>Set Carrier</button>
           </form>
         </div>
-        :
-        <div className='result-section'>
-          <h1>Carrier with {address} in {city} is registered</h1>
-        </div>
-      }
+        
     </div>
   );
 }
