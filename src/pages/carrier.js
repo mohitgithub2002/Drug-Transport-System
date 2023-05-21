@@ -4,18 +4,35 @@ import '../pages.css';
 import {contract} from '../connectContract';
 
 function SetCarrier() {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 4000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const carrier = await contract.setCarrier( address, city)
+    try{const carrier = await contract.setCarrier( address, city)
     const txreceipt = await carrier.wait();
     Swal.fire({
       icon: 'success',
       title: 'Carrier Details',
       text: 'carrier deatils set successfully'
-  })
+  })}catch(error){
+    Toast.fire({
+      icon: 'error',
+      title: 'Only the drug owner or manufacturer can set the carrier address and city'
+    })
+  }
   }
 
   return (

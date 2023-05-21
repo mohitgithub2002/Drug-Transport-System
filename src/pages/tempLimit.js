@@ -7,15 +7,35 @@ function SetCarrier() {
   const [upper, setUpper] = useState('');
   const [lower, setLower] = useState('');
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 4000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  
+
   async function handleSubmit(event) {
     event.preventDefault();
+    try{
+    
     const carrier = await contract.setTemperatureLimits( upper, lower)
     const txreceipt = await carrier.wait();
     Swal.fire({
       icon: 'success',
       title: 'Tempreature limit',
       text: 'tempreature limit set successfully'
-    })
+    })}catch(error){
+      Toast.fire({
+        icon: 'error',
+        title: 'Only Owner can set the temperature limit'
+      })
+    }
   }
 
   return (

@@ -4,19 +4,36 @@ import '../pages.css';
 import {contract} from '../connectContract';
 
 function AddDrug() {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 4000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const drug = await contract.addDrugPack( name, quantity)
+    try{const drug = await contract.addDrugPack( name, quantity)
     const txreceipt = await drug.wait();
     
     Swal.fire({
       icon: 'success',
       title: 'Drug Details',
       text: 'New drug added successfully'
-  })
+  })}catch(error){
+    Toast.fire({
+      icon: 'error',
+      title: 'Only the manufacturer can add drug packs'
+    })
+  }
   }
 
   return (

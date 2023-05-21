@@ -4,18 +4,34 @@ import '../pages.css';
 import {contract} from '../connectContract';
 
 function SetManufacturer() {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 4000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
   
   const [manufacturer, setManufacturer] = useState('');  
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const setmanu = await contract.setManufacturer(manufacturer)
+    try{const setmanu = await contract.setManufacturer(manufacturer)
     const txreceipt = await setmanu.wait();
     Swal.fire({
       icon: 'success',
       title: 'Manufacturer Details',
       text: 'Manufacturer deatils updated successfully'
-  })
+  })}catch(error){
+    Toast.fire({
+      icon: 'error',
+      title: 'Only Owner can set the Manufacturer'
+    })
+  }
   }
 
   return (
