@@ -22,7 +22,7 @@ function SetCarrier() {
   async function handleSubmit(event) {
     event.preventDefault();
     try{const carrier = await contract.setCarrier( address, city)
-    const txreceipt = await carrier.wait();
+     await carrier.wait();
     Swal.fire({
       icon: 'success',
       title: 'Carrier Details',
@@ -30,7 +30,7 @@ function SetCarrier() {
   })}catch(error){
     Toast.fire({
       icon: 'error',
-      title: 'Only the drug owner or manufacturer can set the carrier address and city'
+      title: error.reason
     })
   }
   }

@@ -22,7 +22,7 @@ function AddDrug() {
   async function handleSubmit(event) {
     event.preventDefault();
     try{const drug = await contract.addDrugPack( name, quantity)
-    const txreceipt = await drug.wait();
+     await drug.wait();
     
     Swal.fire({
       icon: 'success',
@@ -31,7 +31,7 @@ function AddDrug() {
   })}catch(error){
     Toast.fire({
       icon: 'error',
-      title: 'Only the manufacturer can add drug packs'
+      title: error.reason
     })
   }
   }

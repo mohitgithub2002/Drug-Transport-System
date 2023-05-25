@@ -25,7 +25,7 @@ function SetCarrier() {
     try{
     
     const carrier = await contract.setTemperatureLimits( upper, lower)
-    const txreceipt = await carrier.wait();
+    await carrier.wait();
     Swal.fire({
       icon: 'success',
       title: 'Tempreature limit',
@@ -33,7 +33,7 @@ function SetCarrier() {
     })}catch(error){
       Toast.fire({
         icon: 'error',
-        title: 'Only Owner can set the temperature limit'
+        title: error.reason
       })
     }
   }

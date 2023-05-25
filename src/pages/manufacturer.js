@@ -21,7 +21,7 @@ function SetManufacturer() {
   async function handleSubmit(event) {
     event.preventDefault();
     try{const setmanu = await contract.setManufacturer(manufacturer)
-    const txreceipt = await setmanu.wait();
+     await setmanu.wait();
     Swal.fire({
       icon: 'success',
       title: 'Manufacturer Details',
@@ -29,7 +29,7 @@ function SetManufacturer() {
   })}catch(error){
     Toast.fire({
       icon: 'error',
-      title: 'Only Owner can set the Manufacturer'
+      title: error.reason
     })
   }
   }
