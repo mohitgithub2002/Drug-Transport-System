@@ -16,9 +16,7 @@ function Home (){
     const drug = () => {
         navigate('/drug');
     }
-    const temperature = () => {
-        navigate('/temperature');
-    }
+    
     const viewdetails = () => {
         navigate('/viewdetails');
     }
@@ -31,7 +29,7 @@ return (
         <button onClick={manufacturer} className="button">Set Manufacturer</button><br />
         <button onClick={carrier} className="button">Set carrier</button><br />
         <button onClick={drug} className="button">Add Drug</button><br />
-        <button onClick={temperature} className="button">Verify Temperature</button><br />
+        {/* <button onClick={temperature} className="button">Verify Temperature</button><br /> */}
         <button onClick={viewdetails} className="button">View Details</button><br />
     </div>
     </div>

@@ -56,7 +56,7 @@ function SetCarrier() {
             
             <div className='input' >
             <label className='label'>
-              Password:
+              Carrier City:
             </label>
               <input
                 type="text"

@@ -1,21 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
-import React, { useState } from 'react';
+import React from 'react';
 import '../pages.css'
 import {contract} from '../connectContract';
 function Home (){
 
-    const[result, setResult] = useState("Drug Transport System");
-
     const navigate = useNavigate();
   
-    const showtemplimit = async() => {
-        const templimit = await contract.getTemperatureLimits();
-        Swal.fire({
-            icon: 'info',
-            title: 'Tempreature limit',
-            text: templimit.toString()
-        })
+    const temperature = () => {
+        navigate('/temperature');
     }
     const drugowner = async() => {
         
@@ -36,20 +29,21 @@ function Home (){
     }
     const getcarrier = async() => {
         const carrier = await contract.getCarrier();
-        Swal.fire({
-            icon: 'info',
-            title: 'Carrier Details',
-            text: carrier
-        })
-    }
-    const getcity = async() => {
         const city = await contract.getCity();
         Swal.fire({
             icon: 'info',
-            title: 'Carrier City',
-            text: city
+            title: 'Carrier Details',
+            text: "carrier"+carrier + " CITY : "+ city
         })
     }
+    // const getcity = async() => {
+    //     const city = await contract.getCity();
+    //     Swal.fire({
+    //         icon: 'info',
+    //         title: 'Carrier City',
+    //         text: city
+    //     })
+    // }
     const drugcount = async() => {
         const drugcount = await contract.getDrugPacksCount();
         Swal.fire({
@@ -66,11 +60,11 @@ return (
     
     <div className="view-field">
         <div className = "home-section">
-        <button onClick={showtemplimit} className="button" >Show Temp Limit</button><br />
+        <button onClick={temperature} className="button" >Tempreature</button><br />
         <button onClick={drugowner} className="button">Drug Owner</button><br />
         <button onClick={getmanufacturer} className="button"> Manufacturer</button><br />
         <button onClick={getcarrier} className="button">Carrier Details</button><br />
-        <button onClick={getcity} className="button">Carrier City</button><br />
+        {/* <button onClick={getcity} className="button">Carrier City</button><br /> */}
         <button onClick={drugcount} className="button">Total Drug Packs</button><br />
         <button onClick={drugdetail} className="button">Drug Details</button><br />
         </div>

@@ -27,7 +27,7 @@ function App() {
     <div className="App">
       
       <header className="App-header">
-        <h1>Drug Transportation</h1>
+        <h1>EAA COMPANY</h1>
         
         <button onClick = {connectMetamask}  >{account? `${account.substring(0,4)}....${account.substring(((account.length)-4),(account.length))}`:"Connect to Metamask" }</button> <br />
       </header>
